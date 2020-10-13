@@ -5,21 +5,20 @@ global:
 scrape_configs:
   - job_name: 'prometheus'
     static_configs:
-    - targets: ['localhost:9090'] ## IP Address of the localhost
+    - targets: ['10.155.242.84:3000'] ## IP Address of the localhost
   - job_name: 'ec2_aws_node_exporter_discovery'
     ec2_sd_configs:
       - port: 9100 # referred to nodeExporter exposed port
-        #role_arn: arn:aws:iam::342241566140:role/Ec2-Instance-Role
+        role_arn: arn:aws:iam::695893684697:role/ecsInstanceRole
         filters:
-        - name: tag:aws:autoscaling:groupName
-          values:
-          - ECS_ASG-2
+        - name: tag:Env
+          values:DEV
+          -
   - job_name: ecs_CAdvisor
     ec2_sd_configs:
       - port: 9200 # referred to cAdvisor exposed port
-        #role_arn: arn:aws:iam::342241566140:role/Ec2-Instance-Role
+        role_arn: arn:aws:iam::695893684697:role/ecsInstanceRole
         filters:
-        - name: tag:aws:autoscaling:groupName
+        - name: tag:Env
           values:
-          - ECS_ASG-2
-
+          - DEV
